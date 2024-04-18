@@ -8,9 +8,13 @@ $titulo = $_POST['titulo'];
 $sql = "insert into filmes (genero, titulo, ano) values ($genero,'$titulo',$ano)";
 
 if($conn->query($sql)){
-    echo "registro incluido com sucesso";
+    header("Location: index.php?resposta=1");
+    $conn->close();
+    die();
 }else{
-    echo "erro: ".$conn->error;
+    header("Location: index.php?resposta=0");
+    $conn->close();
+    die();
 }
 $conn->close();
 ?>
