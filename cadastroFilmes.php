@@ -22,7 +22,7 @@ $result = $conn->query($sql);
         </script>
     </head>
     <body>
-        <h2>Bem vindo <?php echo $_SESSION['nome'];?></h2>
+        <h2>Bem vindo <?=$_SESSION['nome'];?></h2>
         <h1>Cadastro de Filmes</h1>
         <form action = "cadastrar.php" method="post">
             Genero: <?php

@@ -4,7 +4,7 @@
         
     </head>
     <body>
-        <h1>Cadastro de Filmes</h1>
+        <h1>Cadastro de Filmes- Login</h1>
         <form action = "login.php" method="post">
            
                 Usuario: <input type="text" name="usuario" id="usuario">

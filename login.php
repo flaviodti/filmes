@@ -1,13 +1,19 @@
 <?php
-
+include 'conexao.php'; 
 $usuario = $_POST['usuario'];
 $senha = $_POST['senha'];
 
-if($usuario == '123' && $senha == '456'){
+
+
+$sqlUsuarios = "select nome from usuarios where cpf='$usuario' and senha='$senha'";
+$resultado = $conn->query($sqlUsuarios);
+$row2 = $resultado->fetch_assoc();
+
+if(isset($row2) && $row2['nome'] != ''){
     session_start();
     $_SESSION['usuario'] = $usuario;
     $_SESSION['senha'] = $senha;
-    $_SESSION['nome'] = 'Flavio';
+    $_SESSION['nome'] = $row2['nome'];
     header("Location: cadastroFilmes.php");
 }else{
     die("senha incorreta");
