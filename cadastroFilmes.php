@@ -10,6 +10,18 @@ $result = $conn->query($sql);
     <head>    
         <title>Cadastro de Filmes</title>
         <script>
+            function troca(filme){
+                
+                document.getElementById("titulo_"+filme).style.display='none';
+                document.getElementById("ano_"+filme).style.display='none';
+                document.getElementById("tituloE_"+filme).style.display='';
+                document.getElementById("anoE_"+filme).style.display='';
+                document.getElementById("salvar_"+filme).style.display='';
+                document.getElementById("editar_"+filme).style.display='none';
+                
+                
+            }
+
             <?php 
             if(isset($_GET['resposta']) && $_GET['resposta']==1){
                 ?>alert("incluido com sucesso");<?php
@@ -19,6 +31,10 @@ $result = $conn->query($sql);
                 ?>alert("excluído com sucesso");<?php
             }else if(isset($_GET['resposta']) && $_GET['resposta']==4){
                 ?>alert("erro ao excluir");<?php
+            }else if(isset($_GET['resposta']) && $_GET['resposta']==5){
+                ?>alert("aditado com sucesso");<?php
+            }else if(isset($_GET['resposta']) && $_GET['resposta']==6){
+                ?>alert("erro ao editar");<?php
             } ?>
         </script>
     </head>
@@ -62,6 +78,7 @@ $result = $conn->query($sql);
                                 $sqlGeneros = "select genero, descricao from generos where status=1";
                                 $resultado = $conn->query($sqlGeneros);
                                 ?>
+                                <form action="alterar.php" method="post" name="form_<?=$row->filme;?>">
                                 <select name="genero" id="genero">
                                     <option value="">selecione uma opção</option>
                                     <?php
@@ -73,10 +90,15 @@ $result = $conn->query($sql);
                                     ?>
                                 </select>
                             </td>
-                            <td><?php echo htmlspecialchars($row->titulo); ?></td>
-                            <td><?php echo htmlspecialchars($row->ano); ?></td>
-                            <td>salvar</td>
-               
+                            
+                            <td><div id="tituloE_<?=$row->filme;?>" style="display: none;"><input name="titulo" type="text" value="<?php echo htmlspecialchars($row->titulo); ?>"></div>
+                                <div id="titulo_<?=$row->filme;?>"><?php echo htmlspecialchars($row->titulo); ?></div></td>
+                            <td><div id="anoE_<?=$row->filme;?>" style="display: none;"><input name="ano" type="text" value="<?php echo htmlspecialchars($row->ano); ?>"></div>
+                                <div id="ano_<?=$row->filme;?>"><?php echo htmlspecialchars($row->ano); ?></div></td>
+                            <td><div id="editar_<?=$row->filme;?>" style="cursor:pointer;" onclick="troca(<?=$row->filme;?>);">Editar</div>
+                            <div id="salvar_<?=$row->filme;?>" style="cursor:pointer; display:none;" onclick="document.form_<?=$row->filme;?>.submit()">Salvar</div></td>
+                            <input type="hidden" name="filme" value="<?=$row->filme;?>">    
+                            </form>
                             <td><form action="excluir.php" method="post">
                                 <input type="hidden" name="filme" value=<?=$row->filme;?>>
                                 <input type="submit" value="Excluir">
