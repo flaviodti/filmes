@@ -1,8 +1,9 @@
 <?php include 'conexao.php'; 
 session_start();
 // Buscar filmes já cadastrados
-$sql = "SELECT f.filme,f.titulo,f.ano,g.descricao as genero, g.genero as idGenero FROM filmes f
-inner join generos g on (g.genero=f.genero)";
+$sql = "SELECT f.filme,f.titulo,f.ano,g.descricao as genero, g.genero as idGenero 
+            FROM filmes f
+            inner join generos g on (g.genero=f.genero)";
 $result = $conn->query($sql);
 ?>
 <html>
@@ -31,13 +32,13 @@ $result = $conn->query($sql);
                 ?>
                 <select name="genero" id="genero">
                     <option value="">selecione uma opção</option>
-                <?php
-                while($row2 = $resultado->fetch_assoc()){
-                    ?>
-                    <option value="<?php echo $row2["genero"];?>"><?php echo $row2["descricao"];?></option>
                     <?php
-                }
-                ?>
+                    while($row2 = $resultado->fetch_assoc()){
+                        ?>
+                        <option value="<?php echo $row2["genero"];?>"><?php echo $row2["descricao"];?></option>
+                        <?php
+                    }
+                    ?>
                 </select>
                 Ano: <input type="number" name="ano" id="ano">
                 Titulo: <input type="text" name="titulo" id="titulo">
@@ -55,27 +56,27 @@ $result = $conn->query($sql);
                 <?php if ($result->num_rows > 0){ ?>
                     <?php while($row = $result->fetch_object()){ ?>
                         <tr>
-                            <form>
+                     
                             <td>
-                            <?php
-                $sqlGeneros = "select genero, descricao from generos where status=1";
-                $resultado = $conn->query($sqlGeneros);
-                ?>
-                <select name="genero" id="genero">
-                    <option value="">selecione uma opção</option>
-                <?php
-                while($row2 = $resultado->fetch_assoc()){
-                    ?>
-                    <option value="<?php echo $row2["genero"];?>" <?=($row2["genero"]==$row->idGenero)?'selected':'';?> ><?php echo $row2["descricao"];?></option>
-                    <?php
-                }
-                ?>
-                </select>
-                                </td>
+                                <?php
+                                $sqlGeneros = "select genero, descricao from generos where status=1";
+                                $resultado = $conn->query($sqlGeneros);
+                                ?>
+                                <select name="genero" id="genero">
+                                    <option value="">selecione uma opção</option>
+                                    <?php
+                                    while($row2 = $resultado->fetch_assoc()){
+                                        ?>
+                                        <option value="<?php echo $row2["genero"];?>" <?=($row2["genero"]==$row->idGenero)?'selected':'';?> ><?php echo $row2["descricao"];?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </td>
                             <td><?php echo htmlspecialchars($row->titulo); ?></td>
                             <td><?php echo htmlspecialchars($row->ano); ?></td>
-                            <td>Salvar</td>
-                    </form>
+                            <td>salvar</td>
+               
                             <td><form action="excluir.php" method="post">
                                 <input type="hidden" name="filme" value=<?=$row->filme;?>>
                                 <input type="submit" value="Excluir">
